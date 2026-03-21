@@ -1,10 +1,22 @@
 const selectedAPIs = JSON.parse(localStorage.getItem('selectedAPIs') || '[]');
 const customAPIs = JSON.parse(localStorage.getItem('customAPIs') || '[]'); // 存储自定义API列表
 
-// 改进返回功能
+// 改进返回功能 - 优先关闭当前标签页（新标签页打开时）
 function goBack(event) {
     // 防止默认链接行为
     if (event) event.preventDefault();
+    
+    // 0. 如果是新标签页打开的，优先关闭当前标签页
+    // window.opener 存在说明是由 window.open 打开的
+    if (window.opener && !window.opener.closed) {
+        try {
+            window.close();
+            return;
+        } catch (e) {
+            // 某些浏览器不允许脚本关闭非脚本打开的窗口，降级处理
+            console.warn('无法关闭标签页，降级为跳转:', e);
+        }
+    }
     
     // 1. 优先检查URL参数中的returnUrl
     const urlParams = new URLSearchParams(window.location.search);
