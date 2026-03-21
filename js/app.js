@@ -1021,7 +1021,9 @@ function playVideo(url, vod_name, sourceCode, episodeIndex = 0, vodId = '') {
     }
 
     // 在当前标签页中打开播放页面
-    window.location.href = watchUrl;
+    //window.location.href = watchUrl;
+    window.open(watchUrl, '_blank');
+
 }
 
 // 弹出播放器页面
